@@ -1,0 +1,29 @@
+name: Build Sa3r APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Generate Android platform files
+        working-directory: mobile
+        run: flutter create --platforms=android .
+      - name: Flutter pub get
+        working-directory: mobile
+        run: flutter pub get
+      - name: Build release APK
+        working-directory: mobile
+        run: flutter build apk --release --dart-define=SA3R_API_URL=https://bpphsjvbvfalsclyuecm.supabase.co/functions/v1/sa3r-api
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: sa3r-release-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk

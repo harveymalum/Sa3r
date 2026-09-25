@@ -1,0 +1,18 @@
+workflows:
+  sa3r-android-apk:
+    name: Sa3r Android APK
+    max_build_duration: 60
+    instance_type: linux_x2
+    environment:
+      flutter: stable
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          cd mobile
+          flutter pub get
+      - name: Build APK
+        script: |
+          cd mobile
+          flutter build apk --debug --dart-define=SA3R_API_URL=https://bpphsjvbvfalsclyuecm.supabase.co/functions/v1/sa3r-api
+    artifacts:
+      - mobile/build/app/outputs/flutter-apk/*.apk

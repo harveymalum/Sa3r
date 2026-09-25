@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: sa3r-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: AI_API_KEY
+        sync: false
+      - key: PAYMENT_PROVIDER_KEY
+        sync: false
+      - key: PORT
+        value: "4000"
