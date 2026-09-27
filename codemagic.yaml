@@ -6,13 +6,20 @@ workflows:
     environment:
       flutter: stable
     scripts:
+      - name: Generate Android platform
+        script: |
+          cd mobile
+          flutter create --platforms=android .
+
       - name: Get Flutter packages
         script: |
           cd mobile
           flutter pub get
+
       - name: Build APK
         script: |
           cd mobile
           flutter build apk --debug --dart-define=SA3R_API_URL=https://bpphsjvbvfalsclyuecm.supabase.co/functions/v1/sa3r-api
+
     artifacts:
       - mobile/build/app/outputs/flutter-apk/*.apk
