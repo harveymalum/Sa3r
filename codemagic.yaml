@@ -32,6 +32,4 @@ workflows:
           ls -lh build/ios/archive/ || true
 
     artifacts:
-      - $CM_BUILD_DIR/mobile/build/app/outputs/flutter-apk/*.apk
-      - $CM_BUILD_DIR/mobile/build/ios/ipa/*.ipa
-      - $CM_BUILD_DIR/mobile/build/ios/archive/*.xcarchive
+  - mobile/build/app/outputs/flutter-apk/app-release.apk
