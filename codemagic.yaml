@@ -16,10 +16,10 @@ workflows:
           cd mobile
           flutter pub get
 
-      - name: Build APK
-        script: |
-          cd mobile
-          flutter build apk --debug --dart-define=SA3R_API_URL=https://bpphsjvbvfalsclyuecm.supabase.co/functions/v1/sa3r-api
-
+      - - name: Build APK
+  script: |
+    cd mobile
+    flutter build apk --debug --dart-define=SA3R_API_URL=https://bpphsjvbvfalsclyuecm.supabase.co/functions/v1/sa3r-api
+    ls -lh build/app/outputs/flutter-apk/
     artifacts:
-      - mobile/build/app/outputs/flutter-apk/*.apk
+  - $CM_BUILD_DIR/mobile/build/app/outputs/flutter-apk/*.apk
