@@ -32,4 +32,4 @@ workflows:
           ls -lh build/ios/archive/ || true
 
     artifacts:
-  - mobile/build/app/outputs/flutter-apk/app-release.apk
+     - mobile/build/app/outputs/flutter-apk/app-release.apk
