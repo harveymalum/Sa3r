@@ -1,25 +1,37 @@
 workflows:
-  sa3r-android-apk:
-    name: Sa3r Android APK
+  sa3r-mobile:
+    name: Sa3r Android + iOS
     max_build_duration: 60
     instance_type: mac_mini_m2
+
     environment:
       flutter: stable
+
     scripts:
-      - name: Generate Android platform
+      - name: Generate Android and iOS platforms
         script: |
           cd mobile
-          flutter create --platforms=android .
+          flutter create --platforms=android,ios .
 
       - name: Get Flutter packages
         script: |
           cd mobile
           flutter pub get
 
-      - - name: Build APK
-  script: |
-    cd mobile
-    flutter build apk --debug --dart-define=SA3R_API_URL=https://bpphsjvbvfalsclyuecm.supabase.co/functions/v1/sa3r-api
-    ls -lh build/app/outputs/flutter-apk/
+      - name: Build Android APK
+        script: |
+          cd mobile
+          flutter build apk --release --dart-define=SA3R_API_URL=https://bpphsjvbvfalsclyuecm.supabase.co/functions/v1/sa3r-api
+          ls -lh build/app/outputs/flutter-apk/
+
+      - name: Build iOS
+        script: |
+          cd mobile
+          flutter build ipa --release --no-codesign --dart-define=SA3R_API_URL=https://bpphsjvbvfalsclyuecm.supabase.co/functions/v1/sa3r-api
+          ls -lh build/ios/ipa/ || true
+          ls -lh build/ios/archive/ || true
+
     artifacts:
-  - $CM_BUILD_DIR/mobile/build/app/outputs/flutter-apk/*.apk
+      - $CM_BUILD_DIR/mobile/build/app/outputs/flutter-apk/*.apk
+      - $CM_BUILD_DIR/mobile/build/ios/ipa/*.ipa
+      - $CM_BUILD_DIR/mobile/build/ios/archive/*.xcarchive
